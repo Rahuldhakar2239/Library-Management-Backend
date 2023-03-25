@@ -58,4 +58,12 @@ public class RecordController {
 
 		return new ResponseEntity<RecordDto>(record, HttpStatus.OK);
 	}
+
+//	this API is only for returning the book to save return_date and calculating fine
+	@PutMapping("/book/return/{recordId}")
+	public ApiResponse returnBook(@RequestBody RecordDto recordDto, @PathVariable Integer recordId) {
+		String message = this.recordService.returnBook(recordDto, recordId);
+
+		return new ApiResponse(message, true);
+	}
 }

@@ -10,6 +10,8 @@ public interface RecordService {
 
 	RecordDto updateRecord(RecordDto recordDto, Integer recordId);
 
+	String returnBook(RecordDto recordDto, Integer recordId);
+
 	void deleteRecord(Integer recordId);
 
 	List<RecordDto> getAllRecord();
