@@ -16,4 +16,6 @@ public interface RecordService {
 
 	List<RecordDto> getAllRecord();
 
+	List<RecordDto> getAllRecordByUserId(Integer userId);
+
 }

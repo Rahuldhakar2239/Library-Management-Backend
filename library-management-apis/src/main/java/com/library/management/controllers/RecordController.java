@@ -52,6 +52,13 @@ public class RecordController {
 
 	}
 
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<RecordDto>> getAllRecordByUserId(@PathVariable Integer userId) {
+		List<RecordDto> records = this.recordService.getAllRecordByUserId(userId);
+		return new ResponseEntity<List<RecordDto>>(records, HttpStatus.OK);
+
+	}
+
 	@PutMapping("/{recordId}")
 	public ResponseEntity<RecordDto> editRecord(@RequestBody RecordDto recordDto, @PathVariable Integer recordId) {
 		RecordDto record = this.recordService.updateRecord(recordDto, recordId);

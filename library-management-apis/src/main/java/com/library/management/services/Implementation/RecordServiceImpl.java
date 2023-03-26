@@ -57,10 +57,8 @@ public class RecordServiceImpl implements RecordService {
 			}
 
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return amount;
 
 	}
@@ -162,6 +160,17 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	public List<RecordDto> getAllRecord() {
 		List<Record> records = this.recordRepo.findAll();
+		List<RecordDto> RecordDtos = records.stream().map((record) -> this.modelMapper.map(record, RecordDto.class))
+				.collect(Collectors.toList());
+		return RecordDtos;
+	}
+
+	@Override
+	public List<RecordDto> getAllRecordByUserId(Integer userId) {
+		User user = this.userRepo.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+		List<Record> records = this.recordRepo.findByuser(user);
+
 		List<RecordDto> RecordDtos = records.stream().map((record) -> this.modelMapper.map(record, RecordDto.class))
 				.collect(Collectors.toList());
 		return RecordDtos;
