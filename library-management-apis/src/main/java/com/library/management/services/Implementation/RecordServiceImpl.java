@@ -20,6 +20,7 @@ import com.library.management.repositories.BookRepo;
 import com.library.management.repositories.RecordRepo;
 import com.library.management.repositories.UserRepo;
 import com.library.management.services.RecordService;
+import com.library.management.services.TransactionService;
 
 @Service
 public class RecordServiceImpl implements RecordService {
@@ -32,6 +33,9 @@ public class RecordServiceImpl implements RecordService {
 
 	@Autowired
 	private BookRepo bookRepo;
+
+	@Autowired
+	private TransactionService transactionService;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -141,7 +145,13 @@ public class RecordServiceImpl implements RecordService {
 			record.setFine_amount(fineImpose(record.getDue_date(), recordDto.getReturn_date()));
 
 			Record updatedRecord = this.recordRepo.save(record);
-//			return this.modelMapper.map(updatedRecord, RecordDto.class);
+
+//			************************** Create Transaction history******************************
+			if (updatedRecord.getFine_amount() > 0) {
+				this.transactionService.createTransaction(updatedRecord.getUser(), updatedRecord.getFine_amount());
+			}
+//			************************** Create Transaction history******************************
+
 			return "Thank you for Returning the Book !";
 		}
 		return "return_date should not be empty ! please  try again || For Updating query Update API";
