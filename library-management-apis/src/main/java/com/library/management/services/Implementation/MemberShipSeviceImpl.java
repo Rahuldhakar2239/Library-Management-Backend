@@ -16,9 +16,6 @@ import com.library.management.services.MemberShipService;
 @Service
 public class MemberShipSeviceImpl implements MemberShipService {
 
-//	@Autowired
-//	private UserRepo userRepo;
-
 	@Autowired
 	private MemberShipRepo memberShipRepo;
 
@@ -27,33 +24,11 @@ public class MemberShipSeviceImpl implements MemberShipService {
 
 	@Override
 	public MemberShipDto createMemberShipType(MemberShipDto memberShipDto) {
-//		User user = this.userRepo.findById(userId)
-//				.orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
 		MemberShip member = this.modelMapper.map(memberShipDto, MemberShip.class);
-
-//		member.setUser_id(userId);
-//		member.setUser_name(user.getName());
-
-//		if ("silver".equalsIgnoreCase(memberShipDto.getType())) {
 		member.setType(memberShipDto.getType());
 		member.setMax_book_issue(memberShipDto.getMax_book_issue());
 		member.setPrice(memberShipDto.getPrice());
 		member.setValidity(memberShipDto.getValidity());
-//		}
-
-//		else if ("gold".equalsIgnoreCase(memberShipDto.getType())) {
-//			member.setType("gold");
-//			member.setMax_book_issue(3);
-//			member.setPrice(800);
-//			member.setValidity("3 Months");
-//		}
-//
-//		else {
-//			member.setType("Diamond");
-//			member.setMax_book_issue(4);
-//			member.setPrice(3000);
-//			member.setValidity("1 Year");
-//		}
 
 		MemberShip NewMember = this.memberShipRepo.save(member);
 		return this.modelMapper.map(NewMember, MemberShipDto.class);
