@@ -22,9 +22,10 @@ public class TransactionImpl implements TransactionService {
 	SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
 	@Override
-	public void createTransaction(User user, Integer amount) {
+	public void createTransaction(User user, Integer amount, String paymentPurpose) {
 		Transaction t = new Transaction();
 		t.setAmount(amount);
+		t.setAmountTpye(paymentPurpose);
 		String today = sdf.format(c.getTime());
 		t.setTime(today);
 		t.setUser_name(user.getName());
@@ -34,8 +35,8 @@ public class TransactionImpl implements TransactionService {
 
 	@Override
 	public List<Transaction> getAllTransaction() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Transaction> transactions = this.transactionRepo.findAll();
+		return transactions;
 	}
 
 }

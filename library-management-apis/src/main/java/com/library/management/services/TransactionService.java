@@ -7,7 +7,7 @@ import com.library.management.entities.User;
 
 public interface TransactionService {
 
-	void createTransaction(User user, Integer amount);
+	void createTransaction(User user, Integer amount, String paymentPurpose);
 
 	List<Transaction> getAllTransaction();
 }

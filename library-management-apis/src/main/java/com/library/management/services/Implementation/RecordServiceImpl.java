@@ -148,7 +148,8 @@ public class RecordServiceImpl implements RecordService {
 
 //			************************** Create Transaction history******************************
 			if (updatedRecord.getFine_amount() > 0) {
-				this.transactionService.createTransaction(updatedRecord.getUser(), updatedRecord.getFine_amount());
+				this.transactionService.createTransaction(updatedRecord.getUser(), updatedRecord.getFine_amount(),
+						"Fine");
 			}
 //			************************** Create Transaction history******************************
 

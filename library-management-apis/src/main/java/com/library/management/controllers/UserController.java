@@ -58,6 +58,14 @@ public class UserController {
 		return ResponseEntity.ok(udpatedUser);
 	}
 
+	@PutMapping("/{userId}/memberShip/{memberShipTypeId}")
+	public ResponseEntity<UserDto> purchaseMemberShip(@Valid @PathVariable("userId") Integer userId,
+			@PathVariable Integer memberShipTypeId) {
+
+		UserDto udpatedUser = this.userService.TakeMemberShip(userId, memberShipTypeId);
+		return ResponseEntity.ok(udpatedUser);
+	}
+
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer userId) {
 		this.userService.deleteUser(userId);

@@ -25,6 +25,9 @@ public class Transaction {
 	private int amount;
 
 	@Column(nullable = false)
+	private String amountTpye;
+
+	@Column(nullable = false)
 	private String time;
 
 	public int getTransaction_id() {
@@ -65,6 +68,14 @@ public class Transaction {
 
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
+	}
+
+	public String getAmountTpye() {
+		return amountTpye;
+	}
+
+	public void setAmountTpye(String amountTpye) {
+		this.amountTpye = amountTpye;
 	}
 
 }

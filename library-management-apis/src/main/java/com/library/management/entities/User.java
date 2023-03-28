@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -31,9 +32,13 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	private String about;
+//	private String memberShipType= "normal";
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Record> books = new ArrayList<>();
+
+	@ManyToOne
+	private MemberShip memberShip;
 
 	public int getId() {
 		return id;
@@ -74,4 +79,21 @@ public class User {
 	public void setAbout(String about) {
 		this.about = about;
 	}
+
+	public List<Record> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Record> books) {
+		this.books = books;
+	}
+
+	public MemberShip getMemberShip() {
+		return memberShip;
+	}
+
+	public void setMemberShip(MemberShip memberShip) {
+		this.memberShip = memberShip;
+	}
+
 }

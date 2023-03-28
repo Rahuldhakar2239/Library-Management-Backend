@@ -21,6 +21,8 @@ public class UserDto {
 	@NotEmpty
 	private String about;
 
+	private MemberShipDto memberShip;
+
 	public int getId() {
 		return id;
 	}
@@ -59,6 +61,14 @@ public class UserDto {
 
 	public void setAbout(String about) {
 		this.about = about;
+	}
+
+	public MemberShipDto getMemberShip() {
+		return memberShip;
+	}
+
+	public void setMemberShip(MemberShipDto memberShip) {
+		this.memberShip = memberShip;
 	}
 
 }

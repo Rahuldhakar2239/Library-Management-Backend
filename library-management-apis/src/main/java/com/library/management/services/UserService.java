@@ -8,6 +8,8 @@ public interface UserService {
 //	byDefault all methods are public in interface so it's optional to add public keyword in front of method name
 	UserDto createUser(UserDto user);
 
+	UserDto TakeMemberShip(Integer userId, Integer memberShipTypeId);
+
 	UserDto updateUser(UserDto user, Integer userId);
 
 	UserDto getUserById(Integer userId);
