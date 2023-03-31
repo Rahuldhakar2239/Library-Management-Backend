@@ -59,8 +59,9 @@ public class UserServiceImpl implements UserService {
 
 		MemberShip memberType = this.memberShipRepo.findById(memberShipTypeId)
 				.orElseThrow(() -> new ResourceNotFoundException("MemberShip", "id", memberShipTypeId));
-
+// how to add temporary field dynamically in memberType (because I don't want to save that field in table)
 		user.setMemberShip(memberType);
+		user.setTotalBookIssued(memberType.getMax_book_issue());
 		User updatedUser = this.userRepo.save(user);
 		this.transactionService.createTransaction(user, memberType.getPrice(), "Purchase MemberShip");
 

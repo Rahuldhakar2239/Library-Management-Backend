@@ -67,6 +67,7 @@ public class RecordServiceImpl implements RecordService {
 
 	}
 
+//	Take book from Library
 	@Override
 	public RecordDto createRecord(RecordDto recordDto, Integer userId, Integer bookId) {
 		User user = this.userRepo.findById(userId)
@@ -75,34 +76,45 @@ public class RecordServiceImpl implements RecordService {
 		Book book = this.bookRepo.findById(bookId)
 				.orElseThrow(() -> new ResourceNotFoundException("Book", "bookId", bookId));
 
-		if (book.getIsAvailable()) {
-			if (book.getCount() > 0) {
-				book.setCount(book.getCount() - 1);
-				if (book.getCount() == 0) {
-					book.setIsAvailable(false);
+		if (user.getTotalBookIssued() > 0) {
+			user.setTotalBookIssued(user.getTotalBookIssued() - 1);
+			if (book.getIsAvailable()) {
+				if (book.getCount() > 0) {
+					book.setCount(book.getCount() - 1);
+					if (book.getCount() == 0) {
+						book.setIsAvailable(false);
+					}
 				}
+
+				String today = sdf.format(c.getTime());
+//				System.out.println(today);
+				if (user.getMemberShip() == null) {
+					c.add(Calendar.DATE, 7); // Add 7 days to current date
+//					 c.add(Calendar.MONTH, 8); // Add 8 Months to current Date
+				} else {
+					c.add(Calendar.DATE, 15);
+				}
+
+				String after = sdf.format(c.getTime());
+//				System.out.println(after);
+
+				// modelMapper convert postDto object to Post class object
+				Record record = this.modelMapper.map(recordDto, Record.class);
+				record.setIssue_date(today);
+				record.setDue_date(after);
+				record.setReturn_date("");
+				record.setBook_Id(bookId);
+				record.setBook_name(book.getName());
+				record.setUser(user);
+
+				Record newRecord = this.recordRepo.save(record);
+				return this.modelMapper.map(newRecord, RecordDto.class);
 			}
-
-			String today = sdf.format(c.getTime());
-//			System.out.println(today);
-			c.add(Calendar.DATE, 7); // Add 7 days to current date
-			String after = sdf.format(c.getTime());
-//			System.out.println(after);
-
-			// modelMapper convert postDto object to Post class object
-			Record record = this.modelMapper.map(recordDto, Record.class);
-			record.setIssue_date(today);
-			record.setDue_date(after);
-			record.setReturn_date("");
-			record.setBook_Id(bookId);
-			record.setBook_name(book.getName());
-			record.setUser(user);
-
-			Record newRecord = this.recordRepo.save(record);
-			return this.modelMapper.map(newRecord, RecordDto.class);
+			// return any message or throw exception that Book is not Available
+			return null; // book not Available
 		}
-		// return any message or throw exception that Book is not Available
-		return null;
+		return null; // "You have Exceed the Maximum limit So Please return the book and than you can
+						// issue again
 
 	}
 
@@ -145,6 +157,7 @@ public class RecordServiceImpl implements RecordService {
 			record.setFine_amount(fineImpose(record.getDue_date(), recordDto.getReturn_date()));
 
 			Record updatedRecord = this.recordRepo.save(record);
+			record.getUser().setTotalBookIssued(record.getUser().getTotalBookIssued() + 1);
 
 //			************************** Create Transaction history******************************
 			if (updatedRecord.getFine_amount() > 0) {

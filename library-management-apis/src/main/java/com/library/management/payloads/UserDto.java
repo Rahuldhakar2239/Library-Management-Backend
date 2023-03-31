@@ -20,6 +20,7 @@ public class UserDto {
 	private String password;
 	@NotEmpty
 	private String about;
+	private int totalBookIssued = 1;
 
 	private MemberShipDto memberShip;
 
@@ -69,6 +70,14 @@ public class UserDto {
 
 	public void setMemberShip(MemberShipDto memberShip) {
 		this.memberShip = memberShip;
+	}
+
+	public int getTotalBookIssued() {
+		return totalBookIssued;
+	}
+
+	public void setTotalBookIssued(int totalBookIssued) {
+		this.totalBookIssued = totalBookIssued;
 	}
 
 }

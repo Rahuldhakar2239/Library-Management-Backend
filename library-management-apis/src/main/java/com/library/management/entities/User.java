@@ -32,7 +32,9 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	private String about;
-//	private String memberShipType= "normal";
+
+//	for checking - maximun no of issued book can not exceed the "max_book_issue" in MemberShip Entity
+	private int totalBookIssued = 1;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Record> books = new ArrayList<>();
@@ -94,6 +96,14 @@ public class User {
 
 	public void setMemberShip(MemberShip memberShip) {
 		this.memberShip = memberShip;
+	}
+
+	public int getTotalBookIssued() {
+		return totalBookIssued;
+	}
+
+	public void setTotalBookIssued(int totalBookIssued) {
+		this.totalBookIssued = totalBookIssued;
 	}
 
 }
